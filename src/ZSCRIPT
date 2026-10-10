@@ -1,0 +1,4 @@
+version "4.14"
+#include "snesjukebox/catalog.zs"
+#include "snesjukebox/player.zs"
+#include "snesjukebox/menu.zs"

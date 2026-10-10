@@ -1,0 +1,13 @@
+addkeysection "SNES Jukebox - Album Edition" snes_album_keys
+addmenukey "Open SNES Jukebox" "openmenu SJMenu"
+addmenukey "Next song" nextsong
+addmenukey "Previous song" prevsong
+addmenukey "Default map music" origsong
+addmenukey "Favorite current song" "event sj_favorite"
+addmenukey "Stop music" "event sj_stop"
+alias nextsong "event sj_next"
+alias prevsong "event sj_prev"
+alias origsong "event sj_default"
+alias song "event sj_play %1"
+alias snesjukebox "openmenu SJMenu"
+defaultbind J "openmenu SJMenu"

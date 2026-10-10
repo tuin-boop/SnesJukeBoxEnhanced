@@ -1,0 +1,3 @@
+AddOptionMenu "OptionsMenu" { Submenu "SNES Jukebox - Albums", "SJMenu" }
+AddOptionMenu "OptionsMenuSimple" { Submenu "SNES Jukebox - Albums", "SJMenu" }
+OptionMenu "SJMenu" { Class "SJMenu" Title "SNES Jukebox" }

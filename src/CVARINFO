@@ -1,0 +1,10 @@
+user int nomusic = 0;
+user int noinfo = 0;
+user int sj_mode = 0;
+user int sj_scope = 0;
+user int sj_album = 0;
+user int sj_mapchange = 0;
+user int sj_interval = 0;
+user bool sj_sfx = true;
+user bool sj_hud = false;
+user string sj_favorites = "";

@@ -1,0 +1,6 @@
+original/** -text
+*.spc binary
+*.ogg binary
+*.lmp binary
+*.png binary
+*.o binary

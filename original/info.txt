@@ -1,0 +1,165 @@
+/*
+----------------------------
+Note: This compilation can run with ANY mod you want. Yes, ANYTHING. 
+You just need one of the later ZDoom/GZDoom builds, preferably one of 
+the devbuilds. Using ZDL or ZDE would be wise to insure the best compatibility, 
+as those 2 programs allow you to determine the load order of your mods.
+----------------------------
+
+Greetings, Cryomundus here;
+
+Huge thanks for TerminusEST13 for making this jukebox possible, seriously, this 
+thing is fantastic!
+
+All of the songs found in this giant pack are from 
+"http://www.zophar.net/music/spc.html", which also has links to
+spc plugins so you can listen this on a music player, Winamp is the 
+most likely one tho.
+
+For the record, this thing took almost 6-7 months to actually complete, as it 
+originally started on CombineKegan's Gmota Jukebox, which then Term took over 
+and essentially made it standalone, along with the help of others. As for me, 
+it's just taken a long, long time for me to get the time to actually 
+finish writing all the info I needed for this thing. Prolly would've 
+been less had work not been a thing. Ah well. It's done and released!
+
+Anywho, here's a list of all the games in this compilation:
+
+Hagane
+Iron Commando
+Judge Dredd
+Justice League Task Force
+Kabuki Rocks
+Kidou Senshi V Gundam
+Z-Gundam: Away to the Newtype	
+King Arthur and the Knights of Justice
+Kishin Douji Zenki
+Lethal Enforcers
+Lethal Weapon
+Magic Knight Rayearth
+Mazinger Z
+Chrono Trigger
+Mechwarrior 3050
+Metal Combat
+Sparkster
+Acrobat Mission
+Alcahest
+Arcus Spirits
+Battle Master
+Brain Lord
+Breath of Fire
+Breath of Fire 2
+Battle Robot Retsuden
+Battletoads & Double Dragon
+Wild Guns
+Emerald Dragon
+Axelay
+Bahamut Lagoon
+Bazooka Blitzkrieg
+Zoku: The Legend of Bishin
+Bounty Sword
+Brandish
+Brandish 2
+Captain Commando
+Magic Sword
+Rendering Ranger R2
+Treasure of the Rudras
+Ruin Arm
+Run Saber
+Ryukiheidan Dazarubu
+Ryuuko no Ken 2
+Saikyo Takada Nobuhiko
+Space Megaforce
+WeaponLord
+Chaos Seed
+Combatribes
+Contra III: The Alien Wars
+Conveni Wars: Barcode Battler Senki: Super Senshi Shutsugeki seyo!
+Cyber Knight
+Dracula X
+Super Castlevania 4
+Dark Half
+Dark Kingdom
+Dark Law - Meaning of Death
+Donkey Kong Country 2
+Donkey Kong Country 3
+Live A Live
+Lufia & the Fortress of Doom
+Lufia 2
+Der Langrisser
+Street Fighter 2
+Sugoi Hebereke
+Sunset Riders
+Great Battle Gaiden 2
+
+*/
+
+
+-------------
+Below are the original credits, I'm keeping them here purely for acknowledgement
+for all the work that's been put into the original version.
+-------------
+
+CREDITS TO:
+Bloax (Song gathering, info checking)
+TheToxicAvenger (Song gathering, info checking)
+Mike12 (Song gathering)
+CookieJar (Song gathering)
+Ryan Cordell (Fixing the "song xxx" bug)
+Marrub (Converting all the ACS to use strParam instead of an array, clientsiding the music as well)
+
+
+
+FROM V2 TO V3:
+===========================
+- 75 more songs!
+- Judas Priest's Tyrant had a random beep around the 0:56-ish mark. This has been
+  fixed.
+- Dark ambient music has been removed and replaced. This is a pack for jamming to
+  super-cheesy and tinny music, not getting 2spook'd.
+- White Zombie's Temple of the Bull wasn't a song we were able to find any info
+  on. We're not even sure it's actually a real song. It was replaced with a new
+  White Zombie song, Black Sunshine.
+- It's now possible to change exactly to the song you want. Input "song" and then
+  a number in the console, like "song 142", and it'll swap to that exact song.
+- All song info has been given tan and white coloring for easier differentiation.
+- Thanks to Marrub's incredible work, even the song amount now is clientsided.
+  People are now able to add, remove, and adjust songs as they want without any
+  issues in joining servers!
+- Hitting "Next Song" and manually selecting a song no longer requires the
+  norandommusic cvar to be set to 0.
+- Corrected some mistaken song information:
+  ^- Barathrum's Warmetal is off the album Infernal.
+  ^- Linkin Park's Crawling is off the album Hybrid Theory.
+  ^- Battlelore's Stormmaster was renamed to the proper Swordmaster.
+  ^- Song 186 was credited to Cannical Corpse instead of Cannibal Corpse.
+  ^- Sanctuary's Die for My Sins and Taste Revenge are Thrash Metal.
+
+
+FROM V1c TO V2:
+===========================
+- 100 more songs!
+- Removed and replaced Rammstein's Engel with Feuer Frei, due to Engel messing up
+  in-game and playing ring tones instead.
+- Added a "default song" button to play the level's standard music.
+- Moved all song info to LANGUAGE, for people to edit at their leisure if they
+  replace the music.
+- Messages now no longer overlap and will replace each other.
+- Necroticism - Descanting the Insalubrious had an unreadable symbol that was
+  refusing to be read properly.
+- Corrected some mistaken song information:
+  ^- A Succubus In Rapture was not by set_abominae, it was by Dimmu Borgir.
+  ^- Rammstein has identified as Neue Deutsche Harte.
+  ^- Annihilator has never identified their genre as groove metal.
+  ^- Biohazard has identified as Hardcore.
+  ^- Ea, Lord of the Depths was on the album Burzum.
+  ^- Alice in Chains is decisively Grunge.
+  ^- The Midnight Carnival is Speed, not Power.
+  ^- Children of Bodom's songs have been labeled Melodic Death.
+  ^- Fear Factory is Industrial Metal, not Death Metal.
+  ^- Graveworm is now Melodic Black Metal.
+  ^- Hexen is now Thrash Metal.
+  ^- Lamb of God is now metalcore.
+  ^- Refuse/Resist was on Chaos A.D., not Confuse A.D.
+  ^- Reviewers have identified Celtic Frost's To Mega Therion (not Thyrion)
+     album as Death Metal.
