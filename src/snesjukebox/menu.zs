@@ -46,10 +46,10 @@ class SJMenu : OptionMenu
   }
   else if(tab==1)
   {
-   if(!tracksView){album=row;SJPlayer.Set("sj_album",album);tracksView=true;row=0;Rebuild();}
-   else if(row==0){SJPlayer.Set("sj_scope",1);SJPlayer.Set("sj_album",album);if(items.Size()>0)p.PlayTrack(items[0]);}
+   if(!tracksView){album=row;tracksView=true;row=0;Rebuild();}
+   else if(row==0){p.PlayAlbum(album);}
    else if(row==1){tracksView=false;row=album;}
-   else if(row-2<int(items.Size()))p.PlayTrack(items[row-2]);
+   else if(row-2<int(items.Size())){SJPlayer.Set("sj_scope",1);SJPlayer.Set("sj_album",album);p.PlayTrack(items[row-2]);}
   }
   else if(tab==2){if(items.Size()>0)p.PlayTrack(items[row]);}
   else if(tab==3)
@@ -59,7 +59,7 @@ class SJMenu : OptionMenu
    else if(row==2)Cycle("sj_mode",3,direction);
    else if(row==3)Cycle("sj_scope",3,direction);
    else if(row==4)
-   {static const int intervals[]={0,30,60,90,120,180,300,600,900};int pos=0;for(int i=0;i<9;i++)if(intervals[i]==SJPlayer.CV("sj_interval"))pos=i;SJPlayer.Set("sj_interval",intervals[(pos+direction+9)%9]);}
+   {static const int intervals[]={-1,30,60,90,120,180,300,600,900};int pos=4;for(int i=0;i<9;i++)if(intervals[i]==SJPlayer.CV("sj_interval"))pos=i;SJPlayer.Set("sj_interval",intervals[(pos+direction+9)%9]);}
    else if(row==5)Cycle("noinfo",2,direction);
    else if(row==6)Cycle("sj_hud",2,direction);
    else if(row==7)Cycle("sj_sfx",2,direction);
@@ -109,7 +109,7 @@ class SJMenu : OptionMenu
     if(i==0)value=SJPlayer.CV("nomusic")?"OFF":"ON";
     else if(i==1){int b=SJPlayer.CV("sj_mapchange");value=b==0?"NEXT SONG":b==1?"SAME TRACK (RESTART)":"MAP MUSIC";}
     else if(i==2)value=Mode();else if(i==3)value=Scope();
-    else if(i==4)value=SJPlayer.CV("sj_interval")?String.Format("%d SECONDS",SJPlayer.CV("sj_interval")):"OFF / TRACK LOOPS";
+    else if(i==4)value=SJPlayer.CV("sj_mode")==2?"REPEAT MODE / TRACK LOOPS":SJPlayer.CV("sj_interval")<0?"OFF / TRACK LOOPS":String.Format("%d SECONDS",SJPlayer.AdvanceSeconds());
     else if(i==5)value=SJPlayer.CV("noinfo")?"OFF":"ON";
     else if(i==6)value=SJPlayer.CV("sj_hud")?"ON":"OFF";
     else if(i==7)value=SJPlayer.CV("sj_sfx")?"ON":"OFF";

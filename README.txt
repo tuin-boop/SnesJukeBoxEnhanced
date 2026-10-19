@@ -1,10 +1,10 @@
-SNES JUKEBOX - ULTRAPACK ALBUM EDITION v1.1
+SNES JUKEBOX - ULTRAPACK ALBUM EDITION v1.2
 
 INSTALL
-Load SNES-Jukebox-Album-Edition-v1.1.pk3 with UZDoom 4.14.3 or
+Load SNES-Jukebox-Album-Edition-v1.2.pk3 with UZDoom 4.14.3 or
 GZDoom 4.14+. This is a standalone replacement for the original UltraPack;
 load this file instead of loading both jukeboxes together.
-Replace Album Edition v1.0 too; do not load multiple Album Edition versions.
+Replace older Album Editions too; do not load multiple Album Edition versions.
 v1.1 isolates script include paths to prevent collisions with other mods,
 including Griffin Voxel Blood's menu.zs / GVGoreMenu.
 With Stewie, J may already switch companions. Use Options > SNES Jukebox
@@ -26,7 +26,8 @@ FEATURES
   and repeat-current-track mode.
 - Favorites saved in your engine profile; favorites-only playback.
 - Next, previous (in collection order), restart, stop, and restore map music.
-- Optional automatic track advance: 30, 60, 90, 120, 180, 300, 600, 900 seconds.
+- Automatic track advance within one map: two minutes by default.
+  Choose 30, 60, 90, 120, 180, 300, 600, 900 seconds, or Off.
 - Autoplay, map-change behavior, music volume, switching sounds,
   track notifications, and persistent now-playing HUD.
 - Mouse, keyboard, and standard menu controller navigation; key rebinding.
@@ -46,9 +47,12 @@ map-entry autoplay, while noinfo suppresses the in-game track overlay.
 Manual track selection still works with autoplay disabled.
 
 PLAYBACK DETAILS
-SPC tracks loop by default. Auto-advance is a chosen time interval, not
-automatic detection of each composition's ending. Repeat Track loops
-the current track; Next still moves forward through the collection.
+Shuffle and sequential modes advance during one map by default (120 seconds).
+Old v1.1 zero-interval profiles now use 120 seconds. Explicit Off is -1.
+Auto-advance is a chosen time interval, not detection of a composition's end.
+Repeat Track loops without timed rewinds; Next still moves forward.
+Play This Album honors shuffle. Picking a track selects that album for
+subsequent songs; browsing albums alone leaves the playing collection intact.
 Same Track on map change restarts that song on the new map.
 The Previous button moves backward in collection order, not listening history.
 Favorites and settings persist when the engine saves its configuration.

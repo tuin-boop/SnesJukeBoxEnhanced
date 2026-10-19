@@ -1,0 +1,57 @@
+version "4.14"
+class SJShuffleTest : StaticEventHandler
+{
+ ui int ticks, previous, selectedAlbum;
+ ui void Check(bool ok,String label){Console.Printf("SJ TEST %s: %s",ok?"PASS":"FAIL",label);}
+ override void UiTick()
+ {
+  if(gamestate!=GS_LEVEL)return;
+  ticks++;
+  let p=SJPlayer.Get();
+  if(ticks==3)
+  {
+   SJPlayer.Set("sj_mode",0);SJPlayer.Set("sj_interval",0);SJPlayer.Set("sj_sfx",0);
+   selectedAlbum=SJCatalog.AlbumID(1);
+   Check(SJPlayer.AdvanceSeconds()==120,"old zero interval enables two-minute shuffle");
+   p.PlayAlbum(selectedAlbum);
+   bool varied=false, valid=true;int first=p.current;
+   for(int i=0;i<30;i++){int old=p.current;p.PlayAlbum(selectedAlbum);if(p.current!=first)varied=true;if(p.current==old || SJCatalog.AlbumID(p.current)!=selectedAlbum)valid=false;}
+   Check(valid && varied,"play album shuffles within album without immediate repeats");
+   previous=p.current;p.elapsed=4199;
+  }
+  if(ticks==5)
+  {
+   Check(p.current!=previous && SJCatalog.AlbumID(p.current)==selectedAlbum,"automatic two-minute rollover in same map");
+   Menu.SetMenu('SJMenu');let m=SJMenu(Menu.GetCurrentMenu());m.tab=1;m.tracksView=false;m.row=(selectedAlbum+1)%SJCatalog.AlbumCount;m.Change();
+   Check(SJPlayer.CV("sj_album")==selectedAlbum,"browsing another album leaves playback collection alone");
+   m.row=2;m.Change();selectedAlbum=m.album;
+   Check(SJPlayer.CV("sj_album")==selectedAlbum && SJCatalog.AlbumID(p.current)==selectedAlbum,"individual track selects its album for subsequent shuffle");
+   previous=p.current;SJPlayer.Set("sj_interval",1);p.elapsed=0;
+  }
+  if(ticks==43)
+  {
+   Check(p.current!=previous && SJCatalog.AlbumID(p.current)==selectedAlbum && level.MapName~=="MAP01","real elapsed-time shuffle without map change");
+   previous=p.current;SJPlayer.Set("sj_interval",-1);p.elapsed=9999;
+  }
+  if(ticks==46)
+  {
+   Check(p.current==previous && SJPlayer.AdvanceSeconds()==0,"explicit off stays on current song");
+   SJPlayer.Set("sj_interval",1);SJPlayer.Set("sj_mode",2);p.elapsed=9999;
+  }
+  if(ticks==49)
+  {
+   Check(p.current==previous && p.elapsed>9999,"repeat mode loops without timer rewind");
+   SJPlayer.Set("sj_mode",1);p.PlayAlbum(SJCatalog.AlbumID(1));Check(p.current==1,"sequential album starts at first track");p.elapsed=34;
+  }
+  if(ticks==52)
+  {
+   Check(p.current==2,"sequential mode advances in same map");
+   p.StopPlayback();previous=p.current;p.elapsed=9999;
+  }
+  if(ticks==55)
+  {
+   Check(!p.active && p.current==previous,"stop is respected by automatic playback");
+   Console.Printf("SJ TEST COMPLETE");
+  }
+ }
+}

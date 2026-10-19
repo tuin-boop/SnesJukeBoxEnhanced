@@ -33,6 +33,20 @@ class SJPlayer : StaticEventHandler
  {
   return Random(0,max(1,count)-1);
  }
+ static ui int AdvanceSeconds()
+ {
+  // v1.1 profiles saved zero (formerly off). Give them working autoplay too.
+  // Minus one is the explicit off setting; repeat mode loops without rewinding.
+  if(CV("sj_mode")==2 || CV("sj_interval")<0)return 0;
+  int seconds=clamp(CV("sj_interval"),0,900);
+  return seconds==0?120:seconds;
+ }
+ ui void PlayAlbum(int album)
+ {
+  Set("sj_album",clamp(album,0,SJCatalog.AlbumCount-1));Set("sj_scope",1);
+  if(CV("sj_mode")==0){Next();return;}
+  for(int id=1;id<=SJCatalog.TrackCount;id++)if(Eligible(id)){PlayTrack(id);return;}
+ }
  ui void Next(int direction=1,bool automatic=false)
  {
   Array<int> pool;
@@ -87,7 +101,7 @@ class SJPlayer : StaticEventHandler
   if(active)
   {
    elapsed++;
-   int seconds=clamp(CV("sj_interval"),0,900);
+   int seconds=AdvanceSeconds();
    if(seconds>0 && elapsed>=seconds*35)Next(1,true);
   }
  }
