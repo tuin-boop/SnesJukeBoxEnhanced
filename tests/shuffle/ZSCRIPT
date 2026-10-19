@@ -10,7 +10,7 @@ class SJShuffleTest : StaticEventHandler
   let p=SJPlayer.Get();
   if(ticks==3)
   {
-   SJPlayer.Set("sj_mode",0);SJPlayer.Set("sj_interval",0);SJPlayer.Set("sj_sfx",0);
+   SJPlayer.Set("sj_mode",0);SJPlayer.Set("sj_trackend",0);SJPlayer.Set("sj_interval",0);SJPlayer.Set("sj_sfx",0);
    selectedAlbum=SJCatalog.AlbumID(1);
    Check(SJPlayer.AdvanceSeconds()==120,"old zero interval enables two-minute shuffle");
    p.PlayAlbum(selectedAlbum);

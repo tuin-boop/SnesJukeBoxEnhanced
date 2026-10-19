@@ -1,4 +1,4 @@
-param([string]$OutputName='SNES-Jukebox-Album-Edition-v1.2.pk3')
+param([string]$OutputName='SNES-Jukebox-Album-Edition-v1.3.pk3')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 Set-Location $root

@@ -3,7 +3,7 @@ class SJPlayer : StaticEventHandler
 {
  ui int current, elapsed, notice, lastMapTic;
  ui String lastMap, defaultMusic, status;
- ui bool active, wasLevel;
+ ui bool active, wasLevel, trackLoops;
  static ui SJPlayer Get() { return SJPlayer(StaticEventHandler.Find('SJPlayer')); }
  static ui int CV(String key) { return CVar.FindCVar(key).GetInt(); }
  static ui void Set(String key,int value) { CVar.FindCVar(key).SetInt(value); }
@@ -20,7 +20,9 @@ class SJPlayer : StaticEventHandler
   if(id<1 || id>SJCatalog.TrackCount){status="TRACK NUMBER MUST BE 1 TO 974";return;}
   // Changing to the already playing lump does not rewind it in the engine.
   if(active && current==id)S_ChangeMusic("SILENCE",0,true,true);
-  if(!S_ChangeMusic(String.Format("Song%03d",id),0,true,true)){status="COULD NOT START TRACK";return;}
+  bool looping=!AdvanceAtEnd();
+  if(!S_ChangeMusic(String.Format("Song%03d",id),0,looping,true)){status="COULD NOT START TRACK";return;}
+  trackLoops=looping;
   current=id;active=true;elapsed=0;notice=175;status="PLAYING";
   if(effect && CV("sj_sfx"))S_StartSound("music/shift",CHAN_AUTO,0,0.45,ATTN_NONE);
  }
@@ -37,10 +39,11 @@ class SJPlayer : StaticEventHandler
  {
   // v1.1 profiles saved zero (formerly off). Give them working autoplay too.
   // Minus one is the explicit off setting; repeat mode loops without rewinding.
-  if(CV("sj_mode")==2 || CV("sj_interval")<0)return 0;
+  if(AdvanceAtEnd() || CV("sj_mode")==2 || CV("sj_interval")<0)return 0;
   int seconds=clamp(CV("sj_interval"),0,900);
   return seconds==0?120:seconds;
  }
+ static ui bool AdvanceAtEnd() { return CV("sj_trackend") && CV("sj_mode")!=2; }
  ui void PlayAlbum(int album)
  {
   Set("sj_album",clamp(album,0,SJCatalog.AlbumCount-1));Set("sj_scope",1);
@@ -51,7 +54,7 @@ class SJPlayer : StaticEventHandler
  {
   Array<int> pool;
   for(int i=1;i<=SJCatalog.TrackCount;i++)if(Eligible(i))pool.Push(i);
-  if(pool.Size()==0){status="NO FAVORITES YET - ADD A TRACK FIRST";return;}
+  if(pool.Size()==0){status="NO FAVORITES YET - ADD A TRACK FIRST";if(automatic)active=false;return;}
   int mode=clamp(CV("sj_mode"),0,2);
   if(automatic && mode==2 && current>0){PlayTrack(current,false);return;}
   if(mode==0 && direction>0)
@@ -100,7 +103,16 @@ class SJPlayer : StaticEventHandler
   if(notice>0)notice--;
   if(active)
   {
+   // SPC emulation supplies the tagged duration/fade; the audio engine clears
+   // its handle after playback finishes. No wall-clock estimate is needed.
+   // Restart only when a changed setting requires a different loop policy.
+   if(trackLoops==AdvanceAtEnd()){PlayTrack(current,false);return;}
    elapsed++;
+   if(AdvanceAtEnd())
+   {
+    if(System.MusicEnabled() && musplaying.handle==null && musplaying.name=="")Next(1,true);
+    return;
+   }
    int seconds=AdvanceSeconds();
    if(seconds>0 && elapsed>=seconds*35)Next(1,true);
   }

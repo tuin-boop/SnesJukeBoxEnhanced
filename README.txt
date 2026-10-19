@@ -1,7 +1,7 @@
-SNES JUKEBOX - ULTRAPACK ALBUM EDITION v1.2
+SNES JUKEBOX - ULTRAPACK ALBUM EDITION v1.3
 
 INSTALL
-Load SNES-Jukebox-Album-Edition-v1.2.pk3 with UZDoom 4.14.3 or
+Load SNES-Jukebox-Album-Edition-v1.3.pk3 with UZDoom 4.14.3 or
 GZDoom 4.14+. This is a standalone replacement for the original UltraPack;
 load this file instead of loading both jukeboxes together.
 Replace older Album Editions too; do not load multiple Album Edition versions.
@@ -26,8 +26,8 @@ FEATURES
   and repeat-current-track mode.
 - Favorites saved in your engine profile; favorites-only playback.
 - Next, previous (in collection order), restart, stop, and restore map music.
-- Automatic track advance within one map: two minutes by default.
-  Choose 30, 60, 90, 120, 180, 300, 600, 900 seconds, or Off.
+- Automatic track advance when the song ends, even within one map.
+  Optional timers: 30, 60, 90, 120, 180, 300, 600, 900 seconds, or Off.
 - Autoplay, map-change behavior, music volume, switching sounds,
   track notifications, and persistent now-playing HUD.
 - Mouse, keyboard, and standard menu controller navigation; key rebinding.
@@ -47,9 +47,13 @@ map-entry autoplay, while noinfo suppresses the in-game track overlay.
 Manual track selection still works with autoplay disabled.
 
 PLAYBACK DETAILS
-Shuffle and sequential modes advance during one map by default (120 seconds).
-Old v1.1 zero-interval profiles now use 120 seconds. Explicit Off is -1.
-Auto-advance is a chosen time interval, not detection of a composition's end.
+Shuffle and sequential modes now advance when the audio engine finishes the
+song and its fade-out. Settings > Auto-advance defaults to WHEN SONG ENDS
+for new and upgraded profiles (sj_trackend true), without a fixed cutoff.
+SPC music often loops in-game: non-looping playback uses embedded song
+duration and engine end/fade handling, with an engine fallback if untagged.
+Fixed timers and Off remain optional. Switching the loop policy restarts
+the current song so the engine applies the new playback mode.
 Repeat Track loops without timed rewinds; Next still moves forward.
 Play This Album honors shuffle. Picking a track selects that album for
 subsequent songs; browsing albums alone leaves the playing collection intact.

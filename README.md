@@ -12,7 +12,7 @@ An upgraded edition of **Cryomundus's SNES Jukebox UltraPack**, featuring **974 
 - Save favorites and shuffle your favorites, one album, or the full collection.
 - Shuffle without immediate repeats, sequential playback, and repeat-track mode.
 - Next, previous, restart, stop, and restore the current map's music.
-- Automatic switching during the same map, every two minutes by default; choose 30 seconds to 15 minutes or turn it off.
+- Automatic switching when the current song ends, including during the same map; optional fixed timers or Off.
 - Configure autoplay, map-change behavior, music volume, and switching sounds.
 - Optional track notifications and a persistent now-playing HUD.
 - Mouse, keyboard, standard controller menu navigation, and rebindable keys.
@@ -20,7 +20,7 @@ An upgraded edition of **Cryomundus's SNES Jukebox UltraPack**, featuring **974 
 
 ## Install and play
 
-1. Download `SNES-Jukebox-Album-Edition-v1.2.pk3` from Releases.
+1. Download `SNES-Jukebox-Album-Edition-v1.3.pk3` from Releases.
 2. Load it with your IWAD and other mods in **UZDoom 4.14.3 or GZDoom 4.14+**.
 3. Open **Options → SNES Jukebox – Albums**, or enter `snesjukebox` in the console.
 
@@ -30,11 +30,15 @@ This is a standalone replacement: do not also load the original UltraPack or ano
 
 Use arrow keys and Enter to browse, Page Up/Down to change pages, and Backspace to toggle a favorite in track lists. Left/right changes settings. Escape returns to the album library or closes the menu.
 
-Shuffle and sequential playback automatically advance every two minutes, including while staying on one map. Change this in **SETTINGS → AUTO-ADVANCE TIMER** (30 seconds to 15 minutes, or Off). Existing v1.1 profiles with a zero interval now use the two-minute default; the new explicit Off value is `sj_interval -1`. Repeat Track keeps looping the current song without timed rewinds.
+Shuffle and sequential playback now wait until the audio engine finishes the current song, including its fade-out, before advancing. **SETTINGS → AUTO-ADVANCE → WHEN SONG ENDS** is the default for new and upgraded profiles (`sj_trackend true`). No two-minute cutoff is applied in this mode.
+
+SPC game music often loops indefinitely in the original game. Non-looping playback uses the SPC's embedded duration and the engine's fade/end handling; this does not attempt to guess musical boundaries. If duration information is absent, the engine supplies its own fallback. Playback completion is checked from the audio engine rather than estimated from the jukebox's elapsed-time display.
+
+Fixed intervals (30 seconds to 15 minutes) and Off remain available in AUTO-ADVANCE. Repeat Track keeps looping. Switching between looping and song-end playback restarts the current song so the audio engine applies the new mode.
 
 “Play this album” honors shuffle instead of always starting the first track. Selecting an individual track also selects its album for subsequent playback. Browsing other albums does not change the active collection until you play one.
 
-Auto-advance uses a selected time interval, not track-end detection. Previous moves backward in collection order, not listening history. “Same track” on map change restarts that song.
+Previous moves backward in collection order, not listening history. “Same track” on map change restarts that song.
 
 ## Compatibility
 
@@ -68,17 +72,17 @@ Requires Node.js and Windows PowerShell/.NET. Clone the repository, then run fro
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/package.ps1
 ```
 
-This generates `SNES-Jukebox-Album-Edition-v1.2.pk3`. The build checks that all 974 catalog entries have corresponding audio files. The repository includes the original audio needed to build; no separate download is required.
+This generates `SNES-Jukebox-Album-Edition-v1.3.pk3`. The build checks that all 974 catalog entries have corresponding audio files. The repository includes the original audio needed to build; no separate download is required.
 
 - `src/` — current menu, controller, settings, and private font.
 - `src/snesjukebox/catalog.zs` — generated catalog.
 - `original/` — original music, metadata, credits, and archived legacy scripts. The legacy controller is not loaded by the new package.
 - `tools/` — catalog generator and packager.
 
-Run the v1.2 engine regression with your own engine and Doom II IWAD paths:
+Run the engine regression with your own engine and Doom II IWAD paths:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tests/run-shuffle.ps1 -Engine "C:\Games\UZDoom\uzdoom.exe" -IWAD "C:\Games\Doom\doom2.wad"
 ```
 
-It tests album shuffle, automatic transitions within one map, explicit Off, repeat, sequential playback, and album browsing. See [README.txt](README.txt) for additional playback details. Earlier development-machine test scripts described there are not included.
+It tests album shuffle, timed transitions within one map, explicit Off, repeat, sequential playback, and album browsing. Add `-TrackEnd` to test a real original SPC completing playback, followed by automatic album shuffle without changing maps. See [README.txt](README.txt) for additional playback details. Earlier development-machine test scripts described there are not included.

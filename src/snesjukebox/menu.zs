@@ -59,7 +59,7 @@ class SJMenu : OptionMenu
    else if(row==2)Cycle("sj_mode",3,direction);
    else if(row==3)Cycle("sj_scope",3,direction);
    else if(row==4)
-   {static const int intervals[]={-1,30,60,90,120,180,300,600,900};int pos=4;for(int i=0;i<9;i++)if(intervals[i]==SJPlayer.CV("sj_interval"))pos=i;SJPlayer.Set("sj_interval",intervals[(pos+direction+9)%9]);}
+   {static const int intervals[]={-2,-1,30,60,90,120,180,300,600,900};int pos=5;for(int i=1;i<10;i++)if(intervals[i]==SJPlayer.CV("sj_interval"))pos=i;if(SJPlayer.CV("sj_trackend"))pos=0;int value=intervals[(pos+direction+10)%10];SJPlayer.Set("sj_trackend",value==-2);if(value!=-2)SJPlayer.Set("sj_interval",value);}
    else if(row==5)Cycle("noinfo",2,direction);
    else if(row==6)Cycle("sj_hud",2,direction);
    else if(row==7)Cycle("sj_sfx",2,direction);
@@ -105,11 +105,11 @@ class SJMenu : OptionMenu
    }
    else if(tab==3)
    {
-    static const String labels[]={"AUTOPLAY ON MAP ENTRY","ON MAP CHANGE","PLAYBACK MODE","PLAY FROM","AUTO-ADVANCE TIMER","TRACK NOTIFICATIONS","PERSISTENT NOW-PLAYING HUD","TRACK SWITCH SOUND","MUSIC VOLUME"};label=labels[i];
+    static const String labels[]={"AUTOPLAY ON MAP ENTRY","ON MAP CHANGE","PLAYBACK MODE","PLAY FROM","AUTO-ADVANCE","TRACK NOTIFICATIONS","PERSISTENT NOW-PLAYING HUD","TRACK SWITCH SOUND","MUSIC VOLUME"};label=labels[i];
     if(i==0)value=SJPlayer.CV("nomusic")?"OFF":"ON";
     else if(i==1){int b=SJPlayer.CV("sj_mapchange");value=b==0?"NEXT SONG":b==1?"SAME TRACK (RESTART)":"MAP MUSIC";}
     else if(i==2)value=Mode();else if(i==3)value=Scope();
-    else if(i==4)value=SJPlayer.CV("sj_mode")==2?"REPEAT MODE / TRACK LOOPS":SJPlayer.CV("sj_interval")<0?"OFF / TRACK LOOPS":String.Format("%d SECONDS",SJPlayer.AdvanceSeconds());
+    else if(i==4)value=SJPlayer.CV("sj_mode")==2?"REPEAT MODE / TRACK LOOPS":SJPlayer.CV("sj_trackend")?"WHEN SONG ENDS":SJPlayer.CV("sj_interval")<0?"OFF / TRACK LOOPS":String.Format("%d SECONDS",SJPlayer.AdvanceSeconds());
     else if(i==5)value=SJPlayer.CV("noinfo")?"OFF":"ON";
     else if(i==6)value=SJPlayer.CV("sj_hud")?"ON":"OFF";
     else if(i==7)value=SJPlayer.CV("sj_sfx")?"ON":"OFF";
